@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GitHubUsers</string>
+    <string name="no_connection">Check your Internet connection or try later.</string>
+    <string name="general_error">Something went wrong, Please try again.</string>
+    <string name="label_followers">Followers</string>
+    <string name="label_following">Following</string>
+    <string name="label_email">Email</string>
+    <string name="label_company">Company</string>
+    <string name="label_location">Location</string>
+    <string name="label_note">Note</string>
+    <string name="label_no_connection">No Connection</string>
+</resources>
