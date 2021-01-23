@@ -21,14 +21,21 @@ class UserListViewModel @Inject constructor(userRepository: UserRepository) : Vi
         MutableLiveData<Boolean>()
     }
 
+    /**
+     * LiveData that populate the list of users
+     */
     val userList = userRepository.getUsers(30)
         .cachedIn(viewModelScope)
 
 
+    /**
+     * LiveData that populate the list of users based on the searchInput
+     */
     @ExperimentalCoroutinesApi
     val searchList = searchInput.asFlow()
         .flatMapLatest { userRepository.searchUsers(it) }
         .cachedIn(viewModelScope)
+
 
     fun submitSearch(search: String) {
         if (search.isNotEmpty()) {

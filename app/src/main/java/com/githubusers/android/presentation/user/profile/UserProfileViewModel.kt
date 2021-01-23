@@ -22,12 +22,21 @@ class UserProfileViewModel @Inject constructor(private val userRepository: UserR
         MutableLiveData<Boolean>()
     }
 
+    /**
+     * Used for tracking the latest User result from userLiveData
+     */
     private var latestUserResult: UserResult? = null
+
+    /**
+     * User name of the GitHub user
+     */
     private var userName: String = ""
 
 
     /**
      * userLiveData is binded to the view and whenever userNameLiveData emits a value it will retrieve the user detail.
+     *
+     * userRepository.getUser(userName) will emit two one, first will come from DB and the next is from services.
      */
     var userLiveData = Transformations.map(userNameLiveData) { userName ->
         // Converts RxJava Flowable to LiveData
@@ -61,6 +70,7 @@ class UserProfileViewModel @Inject constructor(private val userRepository: UserR
     init {
         viewModelScope.launch {
             hasConnection.asFlow().collectLatest {
+                // when connected retry the retrieval of user data if the request previously failed.
                 if (it) {
                     retryIfLatestRequestFailed()
                 }

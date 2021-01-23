@@ -41,10 +41,18 @@ class UserDataRepository @Inject constructor(
 
     }
 
+    /**
+     * Updates the user entry
+     */
     override fun updateUser(userEntity: UserEntity): Completable {
         return Completable.fromCallable { userDao.update(userEntity) }
     }
 
+    /**
+     * Retrieves users from DB and services. Managed by paging 3 library
+     *
+     * https://developer.android.com/topic/libraries/architecture/paging/v3-overview
+     */
     @ExperimentalPagingApi
     override fun getUsers(pageSize: Int) =
         Pager(config = PagingConfig(pageSize = 15, prefetchDistance = 10),
@@ -52,6 +60,9 @@ class UserDataRepository @Inject constructor(
             userDao.getUsers()
         }.flow
 
+    /**
+     * Searches DB for user's username or note that matches or contains the @param search
+     */
     override fun searchUsers(search: String) = Pager(
         PagingConfig(pageSize = 60, maxSize = 200)
     ) {

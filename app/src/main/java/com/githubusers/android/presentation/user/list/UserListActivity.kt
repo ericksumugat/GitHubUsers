@@ -55,10 +55,12 @@ class UserListActivity : BaseActivity(), UserListAdapter.OnItemClickListener {
     @ExperimentalCoroutinesApi
     private fun initSearchView(searchView: SearchView) {
         searchView.setOnCloseListener {
+            // Switch to User paginated live data when search is inactive.
             lifecycleScope.launch { onSearchInactive() }
             return@setOnCloseListener false
         }
         searchView.setOnSearchClickListener {
+            // Switch to search live data when search is active.
             lifecycleScope.launch { onSearchActive() }
         }
 
@@ -122,6 +124,9 @@ class UserListActivity : BaseActivity(), UserListAdapter.OnItemClickListener {
         binding?.swipeRefresh?.setOnRefreshListener { adapter.refresh() }
     }
 
+    /**
+     * Checks @param loadState for any errors, extract it and display appropriate messaging.
+     */
     private fun listErrorHandling(loadState: CombinedLoadStates) {
         val error = when {
             loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error

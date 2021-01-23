@@ -16,6 +16,9 @@ import dagger.android.support.DaggerAppCompatActivity
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
 
+    /**
+     * Notify network changes
+     */
     abstract fun onNetworkConnectionChange(networkStatus: NetworkStatus)
 
 
