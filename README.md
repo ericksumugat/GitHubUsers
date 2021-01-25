@@ -12,5 +12,4 @@ A simple application that lets you browse GitHub users.
 * DataBinding
 * Paging 3
 
-## TODO
-* Add unit test
+
