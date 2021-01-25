@@ -29,7 +29,7 @@ class UserDaoTest {
         val user = UserEntity(id = 1, login = userName)
 
         userDao.insert(user)
-        userDao.getUserByUserName(userName)
+        userDao.getUserByUserNameSingle(userName)
             .test()
             .assertComplete()
             .assertValue { it.login.equals(userName, false) }
@@ -70,12 +70,12 @@ class UserDaoTest {
 
     @Test
     fun searchPagingUsers() {
-        // TODO Don't know yet how to test Paging 3 written code
+        // TODO Don't know yet how to test Paging 3 written codes
     }
 
     @Test
     fun getPagingUsers() {
-        // TODO Don't know yet how to test Paging 3 written code
+        // TODO Don't know yet how to test Paging 3 written codes
     }
 
 }

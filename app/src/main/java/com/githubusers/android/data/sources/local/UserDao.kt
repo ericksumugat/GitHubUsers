@@ -10,7 +10,10 @@ import io.reactivex.rxjava3.core.Single
 abstract class UserDao : BaseDao<UserEntity>() {
 
     @Query("SELECT * FROM user WHERE login = :userName")
-    abstract fun getUserByUserName(userName: String): Single<UserEntity>
+    abstract fun getUserByUserNameSingle(userName: String): Single<UserEntity>
+
+    @Query("SELECT * FROM user WHERE login = :userName")
+    abstract fun getUserByUserName(userName: String): UserEntity?
 
     @Query("SELECT * FROM user WHERE login LIKE '%' || :searchInput || '%' OR note LIKE '%' || :searchInput || '%'")
     abstract fun searchUsers(searchInput: String): PagingSource<Int, UserEntity>

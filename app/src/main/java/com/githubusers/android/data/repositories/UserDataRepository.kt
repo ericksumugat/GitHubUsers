@@ -29,16 +29,15 @@ class UserDataRepository @Inject constructor(
      * Service source will request User data from server and save it to DB.
      */
     override fun getUser(userName: String): Observable<UserEntity> {
-        return userDao.getUserByUserName(userName).toObservable()
+        return userDao.getUserByUserNameSingle(userName).toObservable()
             .onErrorReturn { UserEntity(0) } // return a dummy UserEntity to swallow the error and continue the stream if there's no saved data.
             .concatWith(remoteUserDataStore.getUser(userName)
                 .map {
-                    val oldUserEntity = userDao.getUserByUserName(userName).blockingGet()
-                    val userEntity = oldUserEntity.updateContent(it.toUserEntity())
+                    val oldUserEntity = userDao.getUserByUserName(userName)
+                    val userEntity = oldUserEntity?.updateContent(it.toUserEntity()) ?: it.toUserEntity()
                     userDao.insertOrReplace(userEntity)
                     userEntity
                 })
-
     }
 
     /**
