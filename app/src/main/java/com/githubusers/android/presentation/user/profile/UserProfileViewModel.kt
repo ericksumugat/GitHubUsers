@@ -38,7 +38,7 @@ class UserProfileViewModel @Inject constructor(private val userRepository: UserR
      *
      * userRepository.getUser(userName) will emit two one, first will come from DB and the next is from services.
      */
-    var userLiveData = Transformations.map(userNameLiveData) { userName ->
+    var userLiveData = Transformations.switchMap(userNameLiveData) { userName ->
         // Converts RxJava Flowable to LiveData
         LiveDataReactiveStreams.fromPublisher(userRepository.getUser(userName)
             .map { UserResult(user = it) }
@@ -57,7 +57,7 @@ class UserProfileViewModel @Inject constructor(private val userRepository: UserR
     }
 
     fun submitNote(note: String) {
-        val result = userLiveData.value?.value
+        val result = userLiveData.value
         result?.user?.let {
             it.note = note
             userRepository.updateUser(it)
